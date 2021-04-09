@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"reflect"
+)
 
 const (
 	isRoot = 1 << iota
@@ -78,7 +81,7 @@ func runMaps() {
 }
 
 type Human struct {
-	Name string
+	Name string `required max:"100"`
 	Surname string
 }
 
@@ -113,6 +116,31 @@ func runStructs() {
 	}
 
 	fmt.Println(aDoctor)
+
+	// Using reflection to get field.
+	t := reflect.TypeOf(Human{})
+	field, _ := t.FieldByName("Name")
+	fmt.Println(field.Tag)
+}
+
+func runLoops() {
+	s := []int64 {1, 2, 3}
+	for i, v := range s {
+		fmt.Println(i, v)
+	}
+}
+
+func runControlFlow() {
+	// Outputs "Middle" after function runControlFlow ends.
+	// But before any results will be returned to another function
+	fmt.Println("[1]Start")
+	defer fmt.Println("[1]Middle")
+	fmt.Println("[1]End")
+
+	// LIFO principal of working with defer function calls.
+	defer fmt.Println("[2]Start")
+	defer fmt.Println("[2]Middle")
+	defer fmt.Println("[2]End")
 }
 
 func main() {
@@ -120,4 +148,6 @@ func main() {
 	runArraysAndSlices()
 	runMaps()
 	runStructs()
+	runLoops()
+	runControlFlow()
 }
