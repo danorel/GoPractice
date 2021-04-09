@@ -77,25 +77,39 @@ func runMaps() {
 	fmt.Println(anotherMapCopy)
 }
 
-type Doctor struct {
-	number int
-	actorName string
-	companions []Doctor
+type Human struct {
+	Name string
+	Surname string
+}
+
+type Actor struct {
+	Human
+	Identifier int
+	Pseudonym  string
+	Companions []Actor
 }
 
 func runStructs() {
-	assistantDoctor := Doctor{
-		number: 1,
-		actorName: "Your Assistant",
-		companions: []Doctor {},
+	assistantDoctor := Actor{
+		Human:		Human{
+			Name: "Your",
+			Surname: "Assistant",
+		},
+		Identifier: 1,
+		Pseudonym:  "Funny Boy",
+		Companions: []Actor{},
 	}
 
 	fmt.Println(assistantDoctor)
 
-	aDoctor := Doctor{
-		number: 5,
-		actorName: "Danyil Orel",
-		companions: []Doctor{ assistantDoctor },
+	aDoctor := Actor{
+		Human:		Human{
+			Name: "Danyil",
+			Surname: "Orel",
+		},
+		Identifier: 5,
+		Pseudonym:  "Pyrokinesis",
+		Companions: []Actor{assistantDoctor },
 	}
 
 	fmt.Println(aDoctor)
