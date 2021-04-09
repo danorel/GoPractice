@@ -2,22 +2,31 @@ package main
 
 import "fmt"
 
+const CharsPerLine = 8
+
 type Writer interface {
-	Write([]byte) (int, error)
+	Write([]byte) error
 }
 
 type ConsoleWriter struct {}
 
-func (cw ConsoleWriter) Write(data []byte) (int, error) {
-	n, err := fmt.Println(string(data))
-	return n, err
+func (cw ConsoleWriter) Write(data []byte) error {
+	for i, v := range data {
+		if i % CharsPerLine == 0 {
+			fmt.Println()
+		}
+		_, err := fmt.Print(string(v))
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func main() {
 	var w Writer = ConsoleWriter{}
-	n, err := w.Write([]byte{1, 2, 3, 4})
+	err := w.Write([]byte("Hello, Go!"))
 	if err != nil {
 		_ = fmt.Errorf(err.Error())
 	}
-	defer fmt.Println(n)
 }
